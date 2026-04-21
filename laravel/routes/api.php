@@ -1,19 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\KpiController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned the "api" middleware group automatically. Enjoy building!
-|
-*/
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/kpi/summary', [KpiController::class, 'summary']);
+    Route::get('/kpi/{kpi}/history', [KpiController::class, 'history']);
+    Route::post('/kpi/{kpi}/update', [KpiController::class, 'update'])->middleware('throttle:60,1');
+});
