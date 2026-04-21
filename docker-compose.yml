@@ -76,6 +76,7 @@ services:
       - ./docker/nginx/wordpress.conf:/etc/nginx/conf.d/wordpress.conf:ro
       - ./docker/nginx/laravel.conf:/etc/nginx/conf.d/laravel.conf:ro
       - wordpress_data:/var/www/html:ro
+      - ./wordpress:/var/www/html/wp-content:ro
       - ./laravel:/var/www/laravel:ro
     networks:
       - app-network
