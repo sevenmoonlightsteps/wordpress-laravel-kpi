@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "kpi-dashboard/kpi-dashboard",
+  "title": "KPI Dashboard",
+  "category": "widgets",
+  "description": "Displays live KPI metrics from the Laravel API.",
+  "textdomain": "kpi-dashboard",
+  "editorScript": "file:./index.js",
+  "viewScript": "file:./view.js",
+  "supports": { "html": false }
+}
