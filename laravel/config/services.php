@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'wordpress' => [
+        'url'      => env('WORDPRESS_API_URL', 'http://wordpress:9000'),
+        'user'     => env('WORDPRESS_API_USER'),
+        'password' => env('WORDPRESS_API_PASSWORD'),
+    ],
+
 ];
