@@ -1,0 +1,88 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_WORDPRESS_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  wordpress:
+    image: wordpress:php8.2-fpm
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: ${DB_WORDPRESS_NAME}
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./wordpress:/var/www/html/wp-content
+    networks:
+      - app-network
+
+  laravel:
+    build:
+      context: ./docker/laravel
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      APP_ENV: local
+      APP_KEY: ${LARAVEL_APP_KEY}
+      APP_DEBUG: "true"
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_LARAVEL_NAME}
+      DB_USERNAME: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./laravel:/var/www/laravel
+    working_dir: /var/www/laravel
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:1.25-alpine
+    restart: unless-stopped
+    depends_on:
+      - wordpress
+      - laravel
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    volumes:
+      - ./docker/nginx/wordpress.conf:/etc/nginx/conf.d/wordpress.conf:ro
+      - ./docker/nginx/laravel.conf:/etc/nginx/conf.d/laravel.conf:ro
+      - wordpress_data:/var/www/html:ro
+      - ./laravel:/var/www/laravel:ro
+    networks:
+      - app-network
+
+volumes:
+  db_data:
+  wordpress_data:
+
+networks:
+  app-network:
+    driver: bridge
