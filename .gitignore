@@ -1,0 +1,36 @@
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Laravel
+laravel/vendor/
+laravel/node_modules/
+laravel/storage/logs/*
+laravel/storage/framework/cache/*
+laravel/storage/framework/sessions/*
+laravel/storage/framework/views/*
+laravel/bootstrap/cache/*
+laravel/.env
+laravel/.env.*
+!laravel/.env.example
+
+# WordPress
+wordpress/wp-content/uploads/
+wordpress/wp-content/cache/
+wordpress/.env
+wordpress/.env.*
+!wordpress/.env.example
+
+# Docker
+docker/mysql/data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
