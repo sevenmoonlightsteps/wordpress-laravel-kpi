@@ -15,12 +15,21 @@ laravel/.env
 laravel/.env.*
 !laravel/.env.example
 
-# WordPress
+# WordPress — only track our custom theme and plugin, not WP defaults
 wordpress/wp-content/uploads/
 wordpress/wp-content/cache/
 wordpress/.env
 wordpress/.env.*
 !wordpress/.env.example
+wordpress/index.php
+wordpress/languages/
+wordpress/plugins/akismet/
+wordpress/plugins/hello.php
+wordpress/plugins/index.php
+wordpress/themes/index.php
+wordpress/themes/twentytwentyfive/
+wordpress/themes/twentytwentyfour/
+wordpress/themes/twentytwentythree/
 
 # Docker
 docker/mysql/data/
