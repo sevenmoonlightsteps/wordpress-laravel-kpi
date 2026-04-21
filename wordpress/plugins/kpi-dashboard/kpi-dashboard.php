@@ -42,3 +42,43 @@ function kpi_dashboard_enqueue_editor_assets(): void {
 	);
 }
 add_action( 'enqueue_block_editor_assets', 'kpi_dashboard_enqueue_editor_assets' );
+
+/**
+ * Enqueue frontend assets for both block and shortcode contexts.
+ * Loads Chart.js from CDN and the view script that initializes the dashboard.
+ */
+function kpi_dashboard_enqueue_frontend_assets(): void {
+	if ( ! is_admin() ) {
+		wp_enqueue_script(
+			'chartjs',
+			'https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js',
+			array(),
+			'4',
+			true
+		);
+		wp_enqueue_script(
+			'kpi-dashboard-view',
+			KPI_DASHBOARD_URL . 'src/block/view.js',
+			array( 'chartjs' ),
+			KPI_DASHBOARD_VERSION,
+			true
+		);
+		wp_enqueue_style(
+			'kpi-dashboard-style',
+			KPI_DASHBOARD_URL . 'src/block/dashboard.css',
+			array(),
+			KPI_DASHBOARD_VERSION
+		);
+	}
+}
+add_action( 'wp_enqueue_scripts', 'kpi_dashboard_enqueue_frontend_assets' );
+
+/**
+ * Add module type to the view script tag for ES module support.
+ */
+add_filter( 'script_loader_tag', function( $tag, $handle ) {
+	if ( $handle === 'kpi-dashboard-view' ) {
+		return str_replace( '<script ', '<script type="module" ', $tag );
+	}
+	return $tag;
+}, 10, 2 );

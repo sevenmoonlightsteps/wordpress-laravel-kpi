@@ -7,6 +7,5 @@
   "description": "Displays live KPI metrics from the Laravel API.",
   "textdomain": "kpi-dashboard",
   "editorScript": "file:./index.js",
-  "viewScript": "file:./view.js",
   "supports": { "html": false }
 }
