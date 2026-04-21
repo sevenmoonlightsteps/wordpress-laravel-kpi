@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": true,
+		"color": {
+			"palette": [
+				{
+					"name": "Primary",
+					"slug": "primary",
+					"color": "#1a73e8"
+				},
+				{
+					"name": "Surface",
+					"slug": "surface",
+					"color": "#f8f9fa"
+				}
+			]
+		}
+	}
+}
