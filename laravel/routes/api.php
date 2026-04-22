@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KpiController;
 use Illuminate\Support\Facades\Route;
+
+Route::post('/auth/wp-token', [AuthController::class, 'wpTokenExchange'])->middleware('throttle:5,1');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/kpi/summary', [KpiController::class, 'summary']);

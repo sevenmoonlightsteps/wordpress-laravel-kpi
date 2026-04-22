@@ -114,7 +114,10 @@ function kpi_dashboard_settings_page_render(): void {
 		return;
 	}
 
-	// Handle form submission with nonce verification.
+	// Handle token-exchange form (from auth.php) before rendering.
+	$auth_notice = kpi_dashboard_handle_auth_form();
+
+	// Handle settings form submission with nonce verification.
 	if ( isset( $_POST['kpi_dashboard_settings_nonce'] ) ) {
 		check_admin_referer( 'kpi_dashboard_save_settings', 'kpi_dashboard_settings_nonce' );
 
@@ -142,6 +145,7 @@ function kpi_dashboard_settings_page_render(): void {
 			submit_button( __( 'Save Settings', 'kpi-dashboard' ) );
 			?>
 		</form>
+		<?php kpi_dashboard_render_auth_section( $auth_notice ); ?>
 	</div>
 	<?php
 }

@@ -18,6 +18,7 @@ define( 'KPI_DASHBOARD_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KPI_DASHBOARD_URL', plugin_dir_url( __FILE__ ) );
 
 require_once KPI_DASHBOARD_DIR . 'includes/settings.php';
+require_once KPI_DASHBOARD_DIR . 'includes/auth.php';
 require_once KPI_DASHBOARD_DIR . 'includes/rest-api.php';
 require_once KPI_DASHBOARD_DIR . 'includes/shortcode.php';
 
